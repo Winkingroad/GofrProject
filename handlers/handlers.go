@@ -44,6 +44,23 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 
 	return "New Car Added!", nil
 }
+func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
+	id := ctx.PathParam("id")
+
+	var c models.Cars
+	err := ctx.Bind(&c)
+	if err != nil {
+		return nil, err
+	}
+	err = h.store.Update(ctx, id, c)
+	if err != nil {
+		return nil, err
+	}
+	return "Car Updated!", nil
+
+}
+
+
 func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	id := ctx.PathParam("id")
 

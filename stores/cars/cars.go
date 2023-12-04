@@ -59,6 +59,46 @@ func (c car) Create(ctx *gofr.Context, model models.Cars) error {
 	return nil
 }
 
+func (c car) Update(ctx *gofr.Context, id string, model models.Cars) error {
+	collection := ctx.MongoDB.Collection("cars")
+
+	filter := bson.D{
+		primitive.E{
+			Key:   "id",
+			Value: id,
+		},
+	}
+
+	update := bson.D{
+		{"$set", bson.D{}},
+	}
+	
+	if model.Brand != "" {
+		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "brand", Value: model.Brand})
+	}
+	if model.Model != "" {
+		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "model", Value: model.Model})
+	}
+	if model.Year != 0 {
+		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "year", Value: model.Year})
+	}
+	if model.Price != 0 {
+		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "price", Value: model.Price})
+	}
+	if model.IsNew {
+		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "is_new", Value: model.IsNew})
+	}
+	
+	_, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return errors.DB{Err: err}
+	}
+
+	return nil
+}
+
+
+
 func (c car) Delete(ctx *gofr.Context, id string) (int, error) {
 	collection := ctx.MongoDB.Collection("cars")
 
@@ -68,6 +108,8 @@ func (c car) Delete(ctx *gofr.Context, id string) (int, error) {
 			Value: id,
 		},
 	}
+
+	
 
 	res, err := collection.DeleteOne(ctx, filter)
 	if err != nil {

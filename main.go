@@ -19,6 +19,7 @@ func main() {
 	// specifying the different routes supported by this service
 	app.GET("/cars/{id}", h.Get)
 	app.POST("/cars", h.Create)
+	app.PUT("/cars/{id}", h.Update)
 	app.DELETE("/cars/{id}", h.Delete)
 	app.Server.HTTP.Port = 8097
 
