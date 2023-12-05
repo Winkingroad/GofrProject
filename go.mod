@@ -3,6 +3,7 @@ module ZopSmartproject
 go 1.21.4
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	go.mongodb.org/mongo-driver v1.13.0
 	gofr.dev v1.0.2
 )
@@ -51,7 +52,6 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/gocql/gocql v1.6.0 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect

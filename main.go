@@ -2,6 +2,7 @@ package main
 
 import (
 	"ZopSmartproject/handlers"
+	"ZopSmartproject/middleware"
 	"ZopSmartproject/stores/cars"
 	"gofr.dev/pkg/gofr"
 )
@@ -17,10 +18,10 @@ func main() {
 	h := handlers.New(store)
 
 	// specifying the different routes supported by this service
-	app.GET("/cars/{id}", h.Get)
-	app.POST("/cars", h.Create)
-	app.PUT("/cars/{id}", h.Update)
-	app.DELETE("/cars/{id}", h.Delete)
+	app.GET("/cars/{id}", middleware.JWTAuth(h.Get))
+	app.POST("/cars", middleware.JWTAuth(h.Create))
+	app.PUT("/cars/{id}", middleware.JWTAuth(h.Update))
+	app.DELETE("/cars/{id}", middleware.JWTAuth(h.Delete))
 	app.Server.HTTP.Port = 8097
 
 	app.Start()
