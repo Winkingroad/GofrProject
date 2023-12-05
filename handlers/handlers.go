@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"ZopSmartproject/models"
 	"ZopSmartproject/stores"
 	"gofr.dev/pkg/gofr"
@@ -39,6 +40,8 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 
 	err = h.store.Create(ctx, c)
 	if err != nil {
+		// Log the error here to understand what went wrong
+		log.Println("Error creating car:", err)
 		return nil, err
 	}
 
@@ -71,3 +74,4 @@ func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 
 	return fmt.Sprintf("%v car Removed!", deleteCount), nil
 }
+

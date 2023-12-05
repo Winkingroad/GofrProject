@@ -17,18 +17,18 @@ type CustomClaims struct {
 	jwt.StandardClaims
 }
 
-// Define a middleware function for JWT authentication
+
 func JWTAuth(next gofr.Handler) gofr.Handler {
 	return func(ctx *gofr.Context) (interface{}, error) {
-		// Get the JWT from the request header
+		
 		tokenString := ctx.Header("Authorization")
 
-		// Parse and validate the token
+		
 		token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return secretKey, nil
 		})
 
-		// Check if the token is valid
+		
 		if err != nil || !token.Valid {
 			return nil, &errors.Response{
 				StatusCode: 401,
@@ -36,7 +36,7 @@ func JWTAuth(next gofr.Handler) gofr.Handler {
 			}
 		}
 
-		// Get the claims from the token
+		
 		claims, ok := token.Claims.(*CustomClaims)
 		if !ok {
 			return nil, &errors.Response{
@@ -46,7 +46,7 @@ func JWTAuth(next gofr.Handler) gofr.Handler {
 		}
 		
 
-		// Check if the user is authorized to access the endpoint
+		
 		if claims.Username != "admin" {
 			return nil, &errors.Response{
 				StatusCode: 403,
@@ -54,7 +54,7 @@ func JWTAuth(next gofr.Handler) gofr.Handler {
 			}
 		}
 
-		// Call the next handler function
+		
 		return next(ctx)
 	}
 }

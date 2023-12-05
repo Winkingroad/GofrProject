@@ -4,20 +4,24 @@ import (
 	"ZopSmartproject/models"
 	"gofr.dev/pkg/gofr"
 	"gofr.dev/pkg/errors"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type car struct{}
-
-func New() car {
-     return car{}
+type car struct {
+    client *mongo.Client
 }
+
+func New(client *mongo.Client) car {
+    return car{client: client}
+}
+
 
 func (c car) Get(ctx *gofr.Context, id string) ([]models.Cars, error) {
 	 resp := make([]models.Cars, 0)
 
-	 collection := ctx.MongoDB.Collection("cars")
+	 collection := c.client.Database("cluster21").Collection("cars")
 
 	 filter := bson.D{}
 
@@ -49,7 +53,7 @@ func (c car) Get(ctx *gofr.Context, id string) ([]models.Cars, error) {
 }
 
 func (c car) Create(ctx *gofr.Context, model models.Cars) error {
-	collection := ctx.MongoDB.Collection("cars")
+	collection := c.client.Database("cluster21").Collection("cars")
 
 	_, err := collection.InsertOne(ctx, model)
 	if err != nil {
@@ -60,7 +64,7 @@ func (c car) Create(ctx *gofr.Context, model models.Cars) error {
 }
 
 func (c car) Update(ctx *gofr.Context, id string, model models.Cars) error {
-	collection := ctx.MongoDB.Collection("cars")
+	collection := c.client.Database("cluster21").Collection("cars")
 
 	filter := bson.D{
 		primitive.E{
@@ -100,7 +104,7 @@ func (c car) Update(ctx *gofr.Context, id string, model models.Cars) error {
 
 
 func (c car) Delete(ctx *gofr.Context, id string) (int, error) {
-	collection := ctx.MongoDB.Collection("cars")
+	collection := c.client.Database("cluster21").Collection("cars")
 
 	filter := bson.D{
 		primitive.E{
