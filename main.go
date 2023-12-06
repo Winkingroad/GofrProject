@@ -41,8 +41,9 @@ log.Println("Connected to MongoDB!")
 	h := handlers.New(store) 
 
 	// specifying the different routes supported by this service
+	app.POST("/login", handlers.LoginHandler)
 	app.GET("/cars/{id}", middleware.JWTAuth(h.Get))
-	app.POST("/cars",h.Create)
+	app.POST("/cars",middleware.JWTAuth(h.Create))
 	app.PUT("/cars/{id}", middleware.JWTAuth(h.Update))
 	app.DELETE("/cars/{id}", middleware.JWTAuth(h.Delete))
 	app.Server.HTTP.Port = 8097

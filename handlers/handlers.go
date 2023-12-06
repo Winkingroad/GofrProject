@@ -67,11 +67,11 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	id := ctx.PathParam("id")
 
-	deleteCount, err := h.store.Delete(ctx, id)
+	_, err := h.store.Delete(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return fmt.Sprintf("%v car Removed!", deleteCount), nil
+	return fmt.Sprintf("%v car Removed!", id), nil
 }
 

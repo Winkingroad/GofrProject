@@ -11,3 +11,4 @@ type Car interface {
 	Update(ctx *gofr.Context, id string, model models.Cars) error
 	Delete(ctx *gofr.Context, id string) (int, error)
 }
+
