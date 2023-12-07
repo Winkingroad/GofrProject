@@ -1,34 +1,29 @@
 [
     {
-        "id": 1,
-        "brand": "Toyota",
-        "model": "Corolla",
-        "year": 2020,
-        "price": 20000,
-        "is_new": true
-    },
-    {
-        "id": 2,
-        "brand": "Honda",
-        "model": "Civic",
-        "year": 2019,
-        "price": 18000,
-        "is_new": false
-    },
-    {
-        "id": 3,
         "brand": "Ford",
+        "carno": "FRD789",
         "model": "Mustang",
         "year": 2022,
         "price": 35000,
         "is_new": true
-    },
-    {
-        "id": 4,
+      },
+      {
+        "brand": "Honda",
+        "carno": "HON456",
+        "model": "Civic",
+        "year": 2019,
+        "price": 22000,
+        "is_new": false
+      },
+      {
         "brand": "BMW",
+        "carno": "BMW555",
         "model": "X5",
         "year": 2021,
         "price": 45000,
         "is_new": true
-    }
+      }
+      
+      
+      
 ]

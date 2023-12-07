@@ -1,83 +1,109 @@
 package cars
 
 import (
+	
+
 	"ZopSmartproject/models"
 	"gofr.dev/pkg/gofr"
 	"gofr.dev/pkg/errors"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type car struct {
-    client *mongo.Client
+	client *mongo.Client
 }
 
 func New(client *mongo.Client) car {
-    return car{client: client}
+	return car{client: client}
 }
 
 
-func (c car) Get(ctx *gofr.Context, id string) ([]models.Cars, error) {
-	 resp := make([]models.Cars, 0)
+func (c car) GetAllCars(ctx *gofr.Context) ([]models.Cars, error) {
+    resp := make([]models.Cars, 0)
 
-	 collection := c.client.Database("cluster21").Collection("cars")
+    collection := c.client.Database("cluster21").Collection("cars")
 
-	 filter := bson.D{}
+    // Get all cars without filtering
+    curr, err := collection.Find(ctx, bson.D{})
+    if err != nil {
+        return resp, errors.DB{Err: err}
+    }
+    defer curr.Close(ctx)
 
-	 if id != "" {
-		idFiltter := primitive.E{
-			Key: "id",
-			Value: id,
-		}
-		filter = append(filter, idFiltter)
+    for curr.Next(ctx) {
+        var car models.Cars
+        err := curr.Decode(&car)
+        if err != nil {
+            return resp, errors.DB{Err: err}
+        }
+        resp = append(resp, car)
+    }
 
-	 }
-
-	 curr, err := collection.Find(ctx, filter)
-	 if err != nil {
-		 return resp, errors.DB{Err: err}
-	 }
-	 defer curr.Close(ctx)
-
-	 for curr.Next(ctx) {
-		 var car models.Cars
-		 err := curr.Decode(&car)
-		 if err != nil {
-			 return resp, errors.DB{Err: err}
-		 }
-		 resp = append(resp, car)
-	 }
-
-	return resp, nil
+    return resp, nil
 }
+
+func (c car) Get(ctx *gofr.Context, carno string) ([]models.Cars, error) {
+    resp := make([]models.Cars, 0)
+
+    collection := c.client.Database("cluster21").Collection("cars")
+
+    filter := bson.D{{"carno", carno}}
+
+    curr, err := collection.Find(ctx, filter)
+    if err != nil {
+        return resp, errors.DB{Err: err}
+    }
+    defer curr.Close(ctx)
+
+    for curr.Next(ctx) {
+        var car models.Cars
+        err := curr.Decode(&car)
+        if err != nil {
+            return resp, errors.DB{Err: err}
+        }
+        resp = append(resp, car)
+    }
+
+    return resp, nil
+}
+
 
 func (c car) Create(ctx *gofr.Context, model models.Cars) error {
-	collection := c.client.Database("cluster21").Collection("cars")
+    collection := c.client.Database("cluster21").Collection("cars")
 
-	_, err := collection.InsertOne(ctx, model)
-	if err != nil {
-		return errors.DB{Err: err}
-	}
+    // Check if the carno already exists in the database
+    filter := bson.D{{"carno", model.CarNo}}
+    existingCar := collection.FindOne(ctx, filter)
+    if existingCar.Err() == nil {
+       
+        return errors.EntityAlreadyExists{}
+    }
+    _, err := collection.InsertOne(ctx, model)
+    if err != nil {
+        return errors.DB{Err: err}
+    }
 
-	return nil
+    return nil
 }
 
-func (c car) Update(ctx *gofr.Context, id string, model models.Cars) error {
+
+func (c car) Update(ctx *gofr.Context, carno string, model models.Cars) error {
 	collection := c.client.Database("cluster21").Collection("cars")
 
 	filter := bson.D{
 		primitive.E{
-			Key:   "id",
-			Value: id,
+			Key:   "carno",
+			Value: carno,
 		},
 	}
 
 	update := bson.D{
 		{"$set", bson.D{}},
 	}
-	
-	if model.Brand != "" {
+
+    if model.Brand != "" {
 		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "brand", Value: model.Brand})
 	}
 	if model.Model != "" {
@@ -92,7 +118,6 @@ func (c car) Update(ctx *gofr.Context, id string, model models.Cars) error {
 	if model.IsNew {
 		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "is_new", Value: model.IsNew})
 	}
-	
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		return errors.DB{Err: err}
@@ -101,19 +126,15 @@ func (c car) Update(ctx *gofr.Context, id string, model models.Cars) error {
 	return nil
 }
 
-
-
-func (c car) Delete(ctx *gofr.Context, id string) (int, error) {
+func (c car) Delete(ctx *gofr.Context, carno string) (int, error) {
 	collection := c.client.Database("cluster21").Collection("cars")
 
 	filter := bson.D{
 		primitive.E{
-			Key: "id",
-			Value: id,
+			Key:   "carno",
+			Value: carno,
 		},
 	}
-
-	
 
 	res, err := collection.DeleteOne(ctx, filter)
 	if err != nil {

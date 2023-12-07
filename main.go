@@ -1,7 +1,7 @@
 package main
 
 import (
-     	"context"
+    "context"
 	"log"
 	"time"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -42,10 +42,11 @@ log.Println("Connected to MongoDB!")
 
 	// specifying the different routes supported by this service
 	app.POST("/login", handlers.LoginHandler)
-	app.GET("/cars/{id}", middleware.JWTAuth(h.Get))
+	app.GET("/cars", middleware.JWTAuth(h.GetCars))
+	app.GET("/cars/{carno}", middleware.JWTAuth(h.Get))
 	app.POST("/cars",middleware.JWTAuth(h.Create))
-	app.PUT("/cars/{id}", middleware.JWTAuth(h.Update))
-	app.DELETE("/cars/{id}", middleware.JWTAuth(h.Delete))
+	app.PUT("/cars/{carno}", middleware.JWTAuth(h.Update))
+	app.DELETE("/cars/{carno}", middleware.JWTAuth(h.Delete))
 	app.Server.HTTP.Port = 8097
 
 	app.Start()
