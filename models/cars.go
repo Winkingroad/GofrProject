@@ -9,3 +9,4 @@ type Cars struct {
 	Price int `json:"price"`
 	IsNew bool `json:"is_new"`
 }
+

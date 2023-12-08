@@ -6,6 +6,7 @@ import (
 	"time"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"ZopSmartproject/stores"
 	"ZopSmartproject/handlers"
 	"ZopSmartproject/middleware"
 	"ZopSmartproject/stores/cars"
@@ -40,8 +41,12 @@ log.Println("Connected to MongoDB!")
 
 	h := handlers.New(store) 
 
+	stores.SetMongoClient(client)
+	handlers.SetMongoClient(client)
+
 	// specifying the different routes supported by this service
 	app.POST("/login", handlers.LoginHandler)
+	app.POST("/signup", handlers.RegisterHandler)
 	app.GET("/cars", middleware.JWTAuth(h.GetCars))
 	app.GET("/cars/{carno}", middleware.JWTAuth(h.Get))
 	app.POST("/cars",middleware.JWTAuth(h.Create))
