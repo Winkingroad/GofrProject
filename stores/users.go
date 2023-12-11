@@ -16,7 +16,7 @@ type User struct {
 	Username string
 }
 
-var client *mongo.Client // Assuming you have initialized the MongoDB client
+var client *mongo.Client // This is the mongo client that will be used by all the stores
 
 func SetMongoClient(c *mongo.Client) {
     client = c

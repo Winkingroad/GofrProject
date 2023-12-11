@@ -53,7 +53,6 @@ func (h handler) Get(ctx *gofr.Context) (interface{}, error) {
 }
 
 
-// In your Create function within the handler:
 func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
     var newCar models.Cars
 
@@ -69,7 +68,7 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
     }
 
     if len(existingCar) > 0 {
-        // Set the response details directly in the handler and return the error
+        
         return nil, &errors.Response{
             StatusCode: 200,
 			Code: "200",
@@ -77,38 +76,71 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
             
         }
     }
-
+   // Set the response details directly in the handler and return the error
     err = h.store.Create(ctx, newCar)
     if err != nil {
         return nil, err
     }
 
-    return "New Car Added!", nil
+	updatedCar ,err := h.store.Get(ctx, newCar.CarNo)
+	if err != nil {
+		return nil, err
+	}
+
+    return updatedCar, nil
 }
 
 
 func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 	id := ctx.PathParam("carno")
 
+	resp, oops := h.store.Get(ctx, id)
+	if oops != nil {
+		return nil, oops
+	}
+
+	if len(resp) == 0 {
+		return nil, errors.EntityNotFound{Entity: "car", ID: id}
+	}
+	
+
 	var c models.Cars
 	err := ctx.Bind(&c)
 	if err != nil {
 		return nil, errors.InvalidParam{Param: []string{"body"}}
 	}
+    
+	
+
+	
 
 	err = h.store.Update(ctx, id, c)
 	if err != nil {
 		return nil, err // Return the original error
 	}
-	return "Car Updated!", nil
+
+	updatedCar, err := h.store.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return updatedCar, nil
 }
 
 func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	id := ctx.PathParam("carno")
 
+	resp, oops := h.store.Get(ctx, id)
+	if oops != nil {
+		return nil, oops
+	}
+
+	if len(resp) == 0 {
+		return nil, errors.EntityNotFound{Entity: "car", ID: id}
+	}
+
 	_, err := h.store.Delete(ctx, id)
 	if err != nil {
-		return nil, err // Return the original error
+		return nil, err 
 	}
 
 	return fmt.Sprintf("%v car Removed!", id), nil
