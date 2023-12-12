@@ -37,7 +37,7 @@ log.Println("Connected to MongoDB!")
 	// Bypass header validation during API calls
 	app.Server.ValidateHeaders = false
 
-	store := cars.New(client) 
+	store := cars.New() 
 
 	h := handlers.New(store) 
 

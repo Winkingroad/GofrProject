@@ -10,14 +10,17 @@ import (
 	"gofr.dev/pkg/errors"
 )
 
-type handler struct {
+type handler struct{
+
 	store stores.Car
 }
 
-func New(store stores.Car) handler {
+func New (store stores.Car) handler{
 	return handler{
 		store: store,
 	}
+
+  
 }
 type CarAlreadyExistsError struct {
     ResponseBody  *errors.Response
@@ -61,6 +64,15 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
         return nil, errors.InvalidParam{Param: []string{"body"}}
     }
 
+    // Validate each field in the newCar 
+    if newCar.Brand == "" || newCar.Model == "" || newCar.CarNo == "" || newCar.Year == 0 || newCar.Price == 0 || !newCar.IsNew{
+        return nil, &errors.Response{
+            StatusCode: 400,
+            Code:       "400",
+            Reason:     "All fields are required",
+        }
+    }
+
     // Check if the car with the given carno already exists in the database
     existingCar, err := h.store.Get(ctx, newCar.CarNo)
     if err != nil {
@@ -68,27 +80,27 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
     }
 
     if len(existingCar) > 0 {
-        
         return nil, &errors.Response{
             StatusCode: 200,
-			Code: "200",
+            Code:       "200",
             Reason:     "Car already exists",
-            
         }
     }
-   // Set the response details directly in the handler and return the error
+
+    // Proceed to create the car
     err = h.store.Create(ctx, newCar)
     if err != nil {
         return nil, err
     }
 
-	updatedCar ,err := h.store.Get(ctx, newCar.CarNo)
-	if err != nil {
-		return nil, err
-	}
+    updatedCar, err := h.store.Get(ctx, newCar.CarNo)
+    if err != nil {
+        return nil, err
+    }
 
     return updatedCar, nil
 }
+
 
 
 func (h handler) Update(ctx *gofr.Context) (interface{}, error) {

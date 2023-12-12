@@ -8,22 +8,20 @@ import (
 	"gofr.dev/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	
 )
 
-type car struct {
-	client *mongo.Client
-}
+type car struct{}
 
-func New(client *mongo.Client) car {
-	return car{client: client}
+func New() car {
+     return car{}
 }
 
 
 func (c car) GetAllCars(ctx *gofr.Context) ([]models.Cars, error) {
     resp := make([]models.Cars, 0)
 
-    collection := c.client.Database("cluster21").Collection("cars")
+	collection := ctx.MongoDB.Collection("cars")
 
     // Get all cars without filtering
     curr, err := collection.Find(ctx, bson.D{})
@@ -47,7 +45,7 @@ func (c car) GetAllCars(ctx *gofr.Context) ([]models.Cars, error) {
 func (c car) Get(ctx *gofr.Context, carno string) ([]models.Cars, error) {
     resp := make([]models.Cars, 0)
 
-    collection := c.client.Database("cluster21").Collection("cars")
+	collection := ctx.MongoDB.Collection("cars")
 
     filter := bson.D{{"carno", carno}}
 
@@ -71,7 +69,7 @@ func (c car) Get(ctx *gofr.Context, carno string) ([]models.Cars, error) {
 
 
 func (c car) Create(ctx *gofr.Context, model models.Cars) error {
-    collection := c.client.Database("cluster21").Collection("cars")
+    collection := ctx.MongoDB.Collection("cars")
 
     // Check if the carno already exists in the database
     filter := bson.D{{"carno", model.CarNo}}
@@ -90,7 +88,7 @@ func (c car) Create(ctx *gofr.Context, model models.Cars) error {
 
 
 func (c car) Update(ctx *gofr.Context, carno string, model models.Cars) error {
-	collection := c.client.Database("cluster21").Collection("cars")
+	collection := ctx.MongoDB.Collection("cars")
 
 	filter := bson.D{
 		primitive.E{
@@ -115,7 +113,7 @@ func (c car) Update(ctx *gofr.Context, carno string, model models.Cars) error {
 	if model.Price != 0 {
 		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "price", Value: model.Price})
 	}
-	if model.IsNew {
+	if model.IsNew || !model.IsNew {
 		update[0].Value = append(update[0].Value.(bson.D), primitive.E{Key: "is_new", Value: model.IsNew})
 	}
 	_, err := collection.UpdateOne(ctx, filter, update)
@@ -127,7 +125,7 @@ func (c car) Update(ctx *gofr.Context, carno string, model models.Cars) error {
 }
 
 func (c car) Delete(ctx *gofr.Context, carno string) (int, error) {
-	collection := c.client.Database("cluster21").Collection("cars")
+	collection := ctx.MongoDB.Collection("cars")
 
 	filter := bson.D{
 		primitive.E{

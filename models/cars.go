@@ -7,6 +7,6 @@ type Cars struct {
 	Model string `json:"model"`
 	Year int `json:"year"`
 	Price int `json:"price"`
-	IsNew bool `json:"is_new"`
+	IsNew bool `json:"is_new" bson:"is_new"`
 }
 
