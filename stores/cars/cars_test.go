@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"ZopSmartproject/models"
+
 	"gofr.dev/pkg/datastore"
 	"gofr.dev/pkg/gofr"
 
@@ -37,6 +38,7 @@ func TestCustomer_Get(t *testing.T) {
         Year: 2019,
         Price: 22000,
         IsNew: false}}, nil},
+		{"get unregistered entity", "HON123", []models.Cars{}, nil},
 	}
 
 	store := New()

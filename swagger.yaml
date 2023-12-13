@@ -1,0 +1,183 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Car API"
+paths:
+  /login:
+    post:
+      summary: "Login"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User credentials"
+          required: true
+          schema:
+            $ref: "#/definitions/Credentials"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            properties:
+              token:
+                type: "string"
+        400:
+          description: "Invalid request body"
+        401:
+          description: "Invalid credentials"
+        500:
+          description: "Internal server error"
+  /signup:
+    post:
+      summary: "Signup"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User credentials"
+          required: true
+          schema:
+            $ref: "#/definitions/Credentials"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        400:
+          description: "Invalid request body"
+        500:
+          description: "Failed to register user"
+  /cars:
+    get:
+      summary: "Get all cars"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Car"
+        401:
+          description: "Invalid credentials"
+    post:
+      summary: "Create a car"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Car object that needs to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/Car"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Car"
+        400:
+          description: "Invalid request body"
+        401:
+          description: "Invalid credentials"
+  /cars/{carno}:
+    get:
+      summary: "Get car by carno"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "carno"
+          in: "path"
+          description: "The carno of the car to retrieve"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Car"
+        401:
+          description: "Invalid credentials"
+    put:
+      summary: "Update a car"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "carno"
+          in: "path"
+          description: "The carno of the car to update"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Car object that needs to be updated"
+          required: true
+          schema:
+            $ref: "#/definitions/Car"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Car"
+        400:
+          description: "Invalid request body"
+        401:
+          description: "Invalid credentials"
+    delete:
+      summary: "Delete a car"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "carno"
+          in: "path"
+          description: "The carno of the car to delete"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        401:
+          description: "Invalid credentials"
+definitions:
+  Credentials:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+  Car:
+    type: "object"
+    properties:
+      brand:
+        type: "string"
+      carno:
+        type: "string"
+      model:
+        type: "string"
+      year:
+        type: "integer"
+      price:
+        type: "integer"
+      is_new:
+        type: "boolean"

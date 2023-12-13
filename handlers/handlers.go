@@ -57,50 +57,77 @@ func (h handler) Get(ctx *gofr.Context) (interface{}, error) {
 
 
 func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
-    var newCar models.Cars
+	var newCar models.Cars
 
-    err := ctx.Bind(&newCar)
-    if err != nil {
-        return nil, errors.InvalidParam{Param: []string{"body"}}
-    }
+	err := ctx.Bind(&newCar)
+	if err != nil {
+		return nil, errors.InvalidParam{Param: []string{"body"}}
+	}
 
-    // Validate each field in the newCar 
-    if newCar.Brand == "" || newCar.Model == "" || newCar.CarNo == "" || newCar.Year == 0 || newCar.Price == 0 || !newCar.IsNew{
-        return nil, &errors.Response{
-            StatusCode: 400,
-            Code:       "400",
-            Reason:     "All fields are required",
-        }
-    }
+	// Perform specific field validations
+	if newCar.Brand == "" {
+		return nil, &errors.Response{
+			StatusCode: 400,
+			Code:       "400",
+			Reason:     "Brand field is required",
+		}
+	}
+	if newCar.Model == "" {
+		return nil, &errors.Response{
+			StatusCode: 400,
+			Code:       "400",
+			Reason:     "Model field is required",
+		}
+	}
+	if newCar.CarNo == "" {
+		return nil, &errors.Response{
+			StatusCode: 400,
+			Code:       "400",
+			Reason:     "CarNo field is required",
+		}
+	}
+	if newCar.Year == 0 {
+		return nil, &errors.Response{
+			StatusCode: 400,
+			Code:       "400",
+			Reason:     "Year field is required and must be greater than zero",
+		}
+	}
+	if newCar.Price == 0 {
+		return nil, &errors.Response{
+			StatusCode: 400,
+			Code:       "400",
+			Reason:     "Price field is required and must be greater than zero",
+		}
+	}
 
-    // Check if the car with the given carno already exists in the database
-    existingCar, err := h.store.Get(ctx, newCar.CarNo)
-    if err != nil {
-        return nil, err
-    }
+	// Check if the car with the given carno already exists in the database
+	existingCar, err := h.store.Get(ctx, newCar.CarNo)
+	if err != nil {
+		return nil, err
+	}
 
-    if len(existingCar) > 0 {
-        return nil, &errors.Response{
-            StatusCode: 200,
-            Code:       "200",
-            Reason:     "Car already exists",
-        }
-    }
+	if len(existingCar) > 0 {
+		return nil, &errors.Response{
+			StatusCode: 200,
+			Code:       "200",
+			Reason:     "Car already exists",
+		}
+	}
 
-    // Proceed to create the car
-    err = h.store.Create(ctx, newCar)
-    if err != nil {
-        return nil, err
-    }
+	// Proceed to create the car
+	err = h.store.Create(ctx, newCar)
+	if err != nil {
+		return nil, err
+	}
 
-    updatedCar, err := h.store.Get(ctx, newCar.CarNo)
-    if err != nil {
-        return nil, err
-    }
+	updatedCar, err := h.store.Get(ctx, newCar.CarNo)
+	if err != nil {
+		return nil, err
+	}
 
-    return updatedCar, nil
+	return updatedCar, nil
 }
-
 
 
 func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
