@@ -113,5 +113,5 @@ func RegisterHandler(ctx *gofr.Context) (interface{}, error) {
         }
     }
 
-    return map[string]string{"message": "Registration successful"}, nil
+    return "Registration Sucessful", nil
 }

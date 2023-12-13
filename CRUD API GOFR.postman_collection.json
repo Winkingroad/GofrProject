@@ -1,0 +1,614 @@
+{
+	"info": {
+		"_postman_id": "41ae95e3-c2e7-4c27-a149-3712a25f32d7",
+		"name": "CRUD API GOFR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30294283",
+		"_collection_link": "https://www.postman.com/flight-cosmologist-78650817/workspace/tesr1/collection/30294283-41ae95e3-c2e7-4c27-a149-3712a25f32d7?action=share&source=collection_link&creator=30294283"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "Register",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"Winkinguser\",\r\n    \"password\":\"WinkingPassword\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9000/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "0203476099ef11eea2dcd45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 19:37:10 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "31"
+						}
+					],
+					"cookie": [],
+					"body": "&{Registration Sucessful <nil>}"
+				}
+			]
+		},
+		{
+			"name": "GET by CarNo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1ODI3MjksInN1YiI6Ildpbmtpbmd1c2VyIn0.jKfoLo8J2gSBFCvOzntjG5nTMAcs9rtX-kgceXFUrp0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9000/cars/FRD789",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"cars",
+						"FRD789"
+					]
+				},
+				"description": "Login"
+			},
+			"response": [
+				{
+					"name": "Getting by CarNo",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:9000/cars/FRD789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"cars",
+								"FRD789"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "7221349a99ef11eea2dcd45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 19:40:18 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "103"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"brand\": \"Ford\",\n            \"carno\": \"FRD789\",\n            \"model\": \"Mustang\",\n            \"year\": 2022,\n            \"price\": 35000,\n            \"is_new\": true\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Winkinguser\",\r\n    \"password\":\"WinkingPassword\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"Winkinguser\",\r\n    \"password\":\"WinkingPassword\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "e07e046d99ef11eea2dcd45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 19:43:25 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "152"
+						}
+					],
+					"cookie": [],
+					"body": "&{map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1ODMwMDUsInN1YiI6Ildpbmtpbmd1c2VyIn0.lz5pa3wiMXMPu69g-wqCUOfNphLFSBYvCe8Pg6RNrDo] <nil>}"
+				}
+			]
+		},
+		{
+			"name": "Getting All Cars",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1ODMwMDUsInN1YiI6Ildpbmtpbmd1c2VyIn0.lz5pa3wiMXMPu69g-wqCUOfNphLFSBYvCe8Pg6RNrDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9000/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Getting All Cars",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:9000/cars",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "21ce7eb899f011eea2dcd45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 19:45:13 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "195"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"brand\": \"Ford\",\n            \"carno\": \"FRD789\",\n            \"model\": \"Mustang\",\n            \"year\": 2022,\n            \"price\": 35000,\n            \"is_new\": true\n        },\n        {\n            \"brand\": \"Honda\",\n            \"carno\": \"HON456\",\n            \"model\": \"Civic\",\n            \"year\": 2019,\n            \"price\": 22000,\n            \"is_new\": false\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Creating a Car",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1ODMwMDUsInN1YiI6Ildpbmtpbmd1c2VyIn0.lz5pa3wiMXMPu69g-wqCUOfNphLFSBYvCe8Pg6RNrDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"brand\": \"BMW\",\r\n        \"carno\": \"BMW321\",\r\n        \"model\": \"X77\",\r\n        \"year\": 2021,\r\n        \"price\": 45000,\r\n        \"is_new\": true\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9000/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Creating a Car",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"brand\": \"BMW\",\r\n        \"carno\": \"BMW321\",\r\n        \"model\": \"X77\",\r\n        \"year\": 2021,\r\n        \"price\": 45000,\r\n        \"is_new\": true\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9000/cars",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "c43d0fe499f211eebf43d45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 20:04:04 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "97"
+						}
+					],
+					"cookie": [],
+					"body": "&{[{\"brand\":\"BMW\",\"carno\":\"BMW321\",\"model\":\"X77\",\"year\":2021,\"price\":45000,\"is_new\":true}] <nil>}"
+				}
+			]
+		},
+		{
+			"name": "Updating a Car",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1ODMwMDUsInN1YiI6Ildpbmtpbmd1c2VyIn0.lz5pa3wiMXMPu69g-wqCUOfNphLFSBYvCe8Pg6RNrDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \r\n        \"model\": \"X79\",\r\n        \"year\": 2023\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9000/cars/BMW321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"cars",
+						"BMW321"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Updating a Car",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \r\n        \"model\": \"X79\",\r\n        \"year\": 2023\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9000/cars/BMW321",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"cars",
+								"BMW321"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "1221353c99f311eebf43d45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 20:06:15 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "98"
+						}
+					],
+					"cookie": [],
+					"body": "&{[{\"brand\":\"BMW\",\"carno\":\"BMW321\",\"model\":\"X79\",\"year\":2023,\"price\":45000,\"is_new\":false}] <nil>}"
+				}
+			]
+		},
+		{
+			"name": "Deleting a Car",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDI1ODMwMDUsInN1YiI6Ildpbmtpbmd1c2VyIn0.lz5pa3wiMXMPu69g-wqCUOfNphLFSBYvCe8Pg6RNrDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/cars/BMW321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"cars",
+						"BMW321"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Deleting a Car",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/cars/BMW321",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"cars",
+								"BMW321"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "3ae3381d99f311eebf43d45d646488da"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 20:07:23 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}

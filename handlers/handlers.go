@@ -2,8 +2,7 @@ package handlers
 
 import (
 	"fmt"
-	
-    
+    "encoding/json"
 	"ZopSmartproject/models"
 	"ZopSmartproject/stores"
 	"gofr.dev/pkg/gofr"
@@ -61,40 +60,40 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 
 	err := ctx.Bind(&newCar)
 	if err != nil {
-		return nil, errors.InvalidParam{Param: []string{"body"}}
+		return "", errors.InvalidParam{Param: []string{"body"}}
 	}
 
 	// Perform specific field validations
 	if newCar.Brand == "" {
-		return nil, &errors.Response{
+		return "", &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Brand field is required",
 		}
 	}
 	if newCar.Model == "" {
-		return nil, &errors.Response{
+		return "", &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Model field is required",
 		}
 	}
 	if newCar.CarNo == "" {
-		return nil, &errors.Response{
+		return "", &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "CarNo field is required",
 		}
 	}
 	if newCar.Year == 0 {
-		return nil, &errors.Response{
+		return "", &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Year field is required and must be greater than zero",
 		}
 	}
 	if newCar.Price == 0 {
-		return nil, &errors.Response{
+		return "", &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Price field is required and must be greater than zero",
@@ -104,11 +103,11 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 	// Check if the car with the given carno already exists in the database
 	existingCar, err := h.store.Get(ctx, newCar.CarNo)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	if len(existingCar) > 0 {
-		return nil, &errors.Response{
+		return "", &errors.Response{
 			StatusCode: 200,
 			Code:       "200",
 			Reason:     "Car already exists",
@@ -118,16 +117,22 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 	// Proceed to create the car
 	err = h.store.Create(ctx, newCar)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	updatedCar, err := h.store.Get(ctx, newCar.CarNo)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return updatedCar, nil
+	jsonResp, err := json.Marshal(updatedCar)
+	if err != nil {
+		return "", err
+	}
+
+	return string(jsonResp), nil
 }
+
 
 
 func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
@@ -162,7 +167,12 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return updatedCar, nil
+	jsonResp, err := json.Marshal(updatedCar)
+	if err != nil {
+		return "", err
+	}
+
+	return string(jsonResp), nil
 }
 
 func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
