@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"fmt"
-    "encoding/json"
+    // "encoding/json"
 	"ZopSmartproject/models"
 	"ZopSmartproject/stores"
 	"gofr.dev/pkg/gofr"
@@ -39,8 +39,8 @@ func (h handler) GetCars(ctx *gofr.Context) (interface{}, error) {
 }
 
 
-func (h handler) Get(ctx *gofr.Context) (interface{}, error) {
-	id := ctx.PathParam("carno")
+func (h handler) Get(ctx *gofr.Context,carno string) (interface{}, error) {
+	id := carno
 
 	resp, err := h.store.Get(ctx, id)
 	if err != nil {
@@ -125,18 +125,18 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 		return "", err
 	}
 
-	jsonResp, err := json.Marshal(updatedCar)
-	if err != nil {
-		return "", err
-	}
+	// jsonResp, err := json.Marshal(updatedCar)
+	// if err != nil {
+	// 	return "", err
+	// }
 
-	return string(jsonResp), nil
+	return updatedCar, nil
 }
 
 
 
-func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
-	id := ctx.PathParam("carno")
+func (h handler) Update(ctx *gofr.Context , carno string) (interface{}, error) {
+	id := carno
 
 	resp, oops := h.store.Get(ctx, id)
 	if oops != nil {
@@ -167,16 +167,16 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	jsonResp, err := json.Marshal(updatedCar)
-	if err != nil {
-		return "", err
-	}
+	// jsonResp, err := json.Marshal(updatedCar)
+	// if err != nil {
+	// 	return "", err
+	// }
 
-	return string(jsonResp), nil
+	return updatedCar, nil
 }
 
-func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
-	id := ctx.PathParam("carno")
+func (h handler) Delete(ctx *gofr.Context, carno string) (interface{}, error) {
+	id := carno
 
 	resp, oops := h.store.Get(ctx, id)
 	if oops != nil {

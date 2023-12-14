@@ -44,14 +44,15 @@ log.Println("Connected to MongoDB!")
 	stores.SetMongoClient(client)
 	handlers.SetMongoClient(client)
 
-	// specifying the different routes supported by this service
 	app.POST("/login", handlers.LoginHandler)
-	app.POST("/signup", handlers.RegisterHandler)
-	app.GET("/cars", middleware.JWTAuth(h.GetCars))
-	app.GET("/cars/{carno}", middleware.JWTAuth(h.Get))
-	app.POST("/cars",middleware.JWTAuth(h.Create))
-	app.PUT("/cars/{carno}", middleware.JWTAuth(h.Update))
-	app.DELETE("/cars/{carno}", middleware.JWTAuth(h.Delete))
+    app.POST("/signup", handlers.RegisterHandler)
+    app.GET("/cars", middleware.JWTAuth(h.GetCars))
+    app.GET("/cars/{carno}", middleware.JWTAuth(func(ctx *gofr.Context) (interface{}, error) {return h.Get(ctx, ctx.PathParam("carno"))}))
+    app.POST("/cars", middleware.JWTAuth(h.Create))
+    app.PUT("/cars/{carno}", middleware.JWTAuth(func(ctx *gofr.Context) (interface{}, error) {return h.Update(ctx, ctx.PathParam("carno"))}))
+    app.DELETE("/cars/{carno}", middleware.JWTAuth(func(ctx *gofr.Context) (interface{}, error) {return h.Delete(ctx, ctx.PathParam("carno"))}))
+   
+
 	app.Server.HTTP.Port = 9000
 
 	app.Start()
