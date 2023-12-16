@@ -11,7 +11,7 @@ This is a basic CRUD API that has been created in Golang using the Gofr framewor
 - [Installation](#installation)
 - [Testing](#testing)
 - [Usage](#usage)
-- [Diagrams](#UML/SEQUENCE Diagrams)
+- [Diagrams](#UML/SEQUENCE)
 - [Contact](#contact)
 
 
