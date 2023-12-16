@@ -6,7 +6,7 @@ import (
     "fmt"
     "time"
 
-    "ZopSmartproject/stores"
+    "github.com/Winkingroad/GofrProject/stores"
 
     "github.com/golang-jwt/jwt/v4"
     "go.mongodb.org/mongo-driver/bson"

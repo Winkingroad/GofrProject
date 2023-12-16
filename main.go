@@ -6,10 +6,10 @@ import (
 	"time"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"ZopSmartproject/stores"
-	"ZopSmartproject/handlers"
-	"ZopSmartproject/middleware"
-	"ZopSmartproject/stores/cars"
+	"github.com/Winkingroad/GofrProject/stores"
+	"github.com/Winkingroad/GofrProject/handlers"
+	"github.com/Winkingroad/GofrProject/middleware"
+	"github.com/Winkingroad/GofrProject/stores/cars"
 	"gofr.dev/pkg/gofr"
 )
 

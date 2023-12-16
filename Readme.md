@@ -2,15 +2,19 @@
 
 This is a basic CRUD API that has been created in Golang using the Gofr framework. This API has an extra layer of authentication using JWT.
 
+
+
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
 - [Installation](#installation)
+- [Testing](#testing)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+
 
 ## Introduction
 
@@ -80,6 +84,31 @@ func New(store stores.Car) handler {
 	}
 }
 ```
+## Testing
+
+You can run the test files for different files and handlers
+
+For testing main.go 
+make sure that main.go is running as for authenticatio API uses ATLAS and for CAR it uses Local DB and 
+
+Before testing Change the username and password that you are going to send in main_test.go
+```go
+{"register success", http.MethodPost, "signup", http.StatusCreated, []byte(`{"username": "changethis","changethis": "1234567890"}`)},
+{"login success", http.MethodPost, "login", http.StatusCreated, []byte(`{"username": "changethis","password": "changethis"}`)},
+```
+Type this i your CLI 
+
+```CLI
+go test
+```
+you can do same for other test file just go to the package thatyou are going to test 
+
+Example for package handlers
+
+```CLI
+cd handlers
+go test
+```
 
 
 
@@ -98,6 +127,15 @@ The Car API provides various endpoints for managing cars. Here are some key endp
 ### API Specifications
 
 [Swagger File](./swagger.yaml)
+
+## UML/SEQUENCE DIAGRAM
+
+### SEQUENCE DIAGRAM
+![Alt text](https://github.com/Winkingroad/GofrProject/blob/final/Sequence%20diagram.png)
+
+### UML DIAGRAM
+![Alt text](https://github.com/Winkingroad/GofrProject/blob/final/UML%20diagram.png)
+
 
 ## Contact
 

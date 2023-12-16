@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"ZopSmartproject/models"
+	"github.com/Winkingroad/GofrProject/models"
 
 	"gofr.dev/pkg/datastore"
 	"gofr.dev/pkg/gofr"

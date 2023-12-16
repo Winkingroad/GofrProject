@@ -5,7 +5,7 @@
 package stores
 
 import (
-	models "ZopSmartproject/models"
+	models "github.com/Winkingroad/GofrProject/models"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"

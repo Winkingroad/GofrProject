@@ -3,8 +3,8 @@ package handlers
 import (
 	"fmt"
     // "encoding/json"
-	"ZopSmartproject/models"
-	"ZopSmartproject/stores"
+	"github.com/Winkingroad/GofrProject/models"
+	"github.com/Winkingroad/GofrProject/stores"
 	"gofr.dev/pkg/gofr"
 	"gofr.dev/pkg/errors"
 )
@@ -60,40 +60,40 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 
 	err := ctx.Bind(&newCar)
 	if err != nil {
-		return "", errors.InvalidParam{Param: []string{"body"}}
+		return nil, errors.InvalidParam{Param: []string{"body"}}
 	}
 
 	// Perform specific field validations
 	if newCar.Brand == "" {
-		return "", &errors.Response{
+		return nil, &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Brand field is required",
 		}
 	}
 	if newCar.Model == "" {
-		return "", &errors.Response{
+		return nil, &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Model field is required",
 		}
 	}
 	if newCar.CarNo == "" {
-		return "", &errors.Response{
+		return nil, &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "CarNo field is required",
 		}
 	}
 	if newCar.Year == 0 {
-		return "", &errors.Response{
+		return nil, &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Year field is required and must be greater than zero",
 		}
 	}
 	if newCar.Price == 0 {
-		return "", &errors.Response{
+		return nil, &errors.Response{
 			StatusCode: 400,
 			Code:       "400",
 			Reason:     "Price field is required and must be greater than zero",
@@ -103,11 +103,11 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 	// Check if the car with the given carno already exists in the database
 	existingCar, err := h.store.Get(ctx, newCar.CarNo)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	if len(existingCar) > 0 {
-		return "", &errors.Response{
+		return nil, &errors.Response{
 			StatusCode: 200,
 			Code:       "200",
 			Reason:     "Car already exists",
@@ -117,12 +117,12 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 	// Proceed to create the car
 	err = h.store.Create(ctx, newCar)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	updatedCar, err := h.store.Get(ctx, newCar.CarNo)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	// jsonResp, err := json.Marshal(updatedCar)

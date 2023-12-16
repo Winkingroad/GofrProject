@@ -22,8 +22,8 @@ func TestIntegration(t *testing.T) {
 		statusCode int
 		body       []byte
 	}{
-		{"register success", http.MethodPost, "signup", http.StatusCreated, []byte(`{"username": "test2","password": "1234567890"}`)},
-		{"login success", http.MethodPost, "login", http.StatusCreated, []byte(`{"username": "test2","password": "1234567890"}`)},
+		{"register success", http.MethodPost, "signup", http.StatusCreated, []byte(`{"username": "test3","password": "1234567890"}`)},
+		{"login success", http.MethodPost, "login", http.StatusCreated, []byte(`{"username": "test3","password": "1234567890"}`)},
 		{"get success", http.MethodGet, "cars", http.StatusOK, nil},
 		{"create success", http.MethodPost, "cars", http.StatusCreated, []byte(`{"brand": "BMW","carno": "BMW-555-KH","model": "X5","year": 2021,"price": 45000,"is_new": true}`)},
 		{"get success", http.MethodGet, "cars/BMW-555-KH", http.StatusOK, nil},
