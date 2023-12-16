@@ -12,7 +12,6 @@ This is a basic CRUD API that has been created in Golang using the Gofr framewor
 - [Testing](#testing)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 
